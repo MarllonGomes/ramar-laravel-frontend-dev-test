@@ -1,9 +1,15 @@
+import sellers from '@/routes/sellers';
 import brmotos from '../../img/brmotos.jpg';
 
 type Seller = {
   id: number;
   name: string;
   email: string;
+  city_id: number;
+  logo_url?: string;
+  is_verified?: boolean;
+  phone_number: number;
+  external_url: string
 };
 
 type State = {
@@ -29,21 +35,38 @@ export default function ListSellers ({ seller }: ListSellersProps) {
         <div className="card max-w-sm bg-white rounded-xl shadow-md p-6">
             
           
-            <div key={seller.id} className="card">
-            <img src={brmotos} alt="BR Motos" />
-            <p>{seller.name}</p>
-            <span>Revenda verificada</span>
+            <div key={seller.id} className="card ">
+            <div className='card-img flex items-center gap-4'>
+              <img className='w-20 h-25' src={brmotos} alt="BR Motos" />
 
-            <div className="localization">
-                <svg width="8" height="11" viewBox="0 0 8 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 0C1.78857 0 0 1.7215 0 3.85C0 6.7375 4 11 4 11C4 11 8 6.7375 8 3.85C8 1.7215 6.21143 0 4 0ZM4 5.225C3.21143 5.225 2.57143 4.609 2.57143 3.85C2.57143 3.091 3.21143 2.475 4 2.475C4.78857 2.475 5.42857 3.091 5.42857 3.85C5.42857 4.609 4.78857 5.225 4 5.225Z" fill="#111827"/>
+            
+            {/* <img src={seller.logo_url} alt="seller" /> */}
+              <div className='list-items flex-inline'>
+                <p>{seller.name}</p>
+                <span>Revenda verificada</span>
+
+                  <div className="localization">
+                      <svg width="8" height="11" viewBox="0 0 8 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 0C1.78857 0 0 1.7215 0 3.85C0 6.7375 4 11 4 11C4 11 8 6.7375 8 3.85C8 1.7215 6.21143 0 4 0ZM4 5.225C3.21143 5.225 2.57143 4.609 2.57143 3.85C2.57143 3.091 3.21143 2.475 4 2.475C4.78857 2.475 5.42857 3.091 5.42857 3.85C5.42857 4.609 4.78857 5.225 4 5.225Z" fill="#111827"/>
+                      </svg>
+
+                      <span>/ {seller.name}</span>
+                      <p className='p-2 w-30 bg-[#E20025E5]'>50 km</p>
+                      
+                  </div>
+              </div>
+
+          </div>
+            <div className="whats mb-2">
+                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.55 3.41C15.68 1.53 13.19 0.5 10.54 0.5C5.08005 0.5 0.630049 4.95 0.630049 10.41C0.630049 12.16 1.09005 13.86 1.95005 15.36L0.550049 20.5L5.80005 19.12C7.25005 19.91 8.88005 20.33 10.54 20.33C16 20.33 20.4501 15.88 20.4501 10.42C20.4501 7.77 19.42 5.28 17.55 3.41ZM10.54 18.65C9.06005 18.65 7.61005 18.25 6.34005 17.5L6.04005 17.32L2.92005 18.14L3.75005 15.1L3.55005 14.79C2.73005 13.48 2.29005 11.96 2.29005 10.41C2.29005 5.87 5.99005 2.17 10.53 2.17C12.73 2.17 14.8 3.03 16.35 4.59C17.91 6.15 18.76 8.22 18.76 10.42C18.7801 14.96 15.08 18.65 10.54 18.65ZM15.06 12.49C14.81 12.37 13.59 11.77 13.37 11.68C13.14 11.6 12.98 11.56 12.81 11.8C12.64 12.05 12.17 12.61 12.03 12.77C11.89 12.94 11.74 12.96 11.49 12.83C11.24 12.71 10.44 12.44 9.50005 11.6C8.76005 10.94 8.27005 10.13 8.12005 9.88C7.98005 9.63 8.10005 9.5 8.23005 9.37C8.34005 9.26 8.48005 9.08 8.60005 8.94C8.72005 8.8 8.77005 8.69 8.85005 8.53C8.93005 8.36 8.89005 8.22 8.83005 8.1C8.77005 7.98 8.27005 6.76 8.07005 6.26C7.87005 5.78 7.66005 5.84 7.51005 5.83C7.36005 5.83 7.20005 5.83 7.03005 5.83C6.86005 5.83 6.60005 5.89 6.37005 6.14C6.15005 6.39 5.51005 6.99 5.51005 8.21C5.51005 9.43 6.40005 10.61 6.52005 10.77C6.64005 10.94 8.27005 13.44 10.75 14.51C11.34 14.77 11.8 14.92 12.16 15.03C12.75 15.22 13.29 15.19 13.72 15.13C14.2 15.06 15.19 14.53 15.39 13.95C15.6 13.37 15.6 12.88 15.53 12.77C15.46 12.66 15.31 12.61 15.06 12.49Z" fill="white"/>
                 </svg>
-                <span>BRASÍLIA / DF</span>
-                <p>50 km</p>
+
+              <button className='p-4 bg-[#16A34A] text-white mb-2 rounded-lg mx-auto' type="submit" value={seller.phone_number}>Chamar no WhatsApp</button>
             </div>
 
-            <button type="submit">Chamar no WhatsApp</button>
-            <a href="">Veja as motos da revenda</a>
+            <a href={seller.external_url} className='p-4 bg-[#57534E] text-white mt-2 rounded-lg mx-auto'>Veja as motos da revenda</a>
+
             </div>
        
 

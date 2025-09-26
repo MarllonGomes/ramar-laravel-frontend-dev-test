@@ -19,17 +19,19 @@ class SellerListController extends Controller
      */
     public function __invoke(Request $request): Response
     {
-        $state = $request->route('state');
-        $city = $request->route('city');
+        $stateId = $request->route('state');
+        $cityId = $request->route('city');
         $page = (int) $request->query('page', 1);
+
         $states = State::query()->orderBy('abbr')->get(['id', 'name', 'abbr']);
         $cities = City::query()->orderBy('name')->get(['id', 'name', 'state_id']);
+        
         $sellers = Seller::query()
-            ->when($state, fn ($query) => $query->whereHas('city.state', fn ($q) => $q->where('id', $state->id)))
-            ->when($city, fn ($query) => $query->where('city_id', $city->id))
+            ->when($stateId, fn ($query) => $query->whereHas('city', fn ($q) => $q->where('state_id', $stateId)))
+            ->when($cityId, fn ($query) => $query->where('city_id', $cityId))
             ->with(['city', 'city.state'])
             ->orderBy('name')
-            ->limit(self::PAGINATION_SIZE * $page + 1) // Fetch one extra to see if there's a next page
+            ->limit(self::PAGINATION_SIZE * $page + 1)
             ->get();
 
         $hasMorePages = $sellers->count() > self::PAGINATION_SIZE * $page;
@@ -42,12 +44,18 @@ class SellerListController extends Controller
             'states' => $states,
             'cities' => $cities,
             'filters' => [
-                'city' => $city,
-                'state' => $state,
+                'state' => State::find($stateId),
+                'city' => City::find($cityId),
             ],
             'hasMorePages' => $hasMorePages,
             'currentPage' => $page,
             'nextPage' => $hasMorePages ? $page + 1 : null,
         ]);
     }
+        // $stateParam = $request->route('state');
+        // dd([
+        //     'COMO CHEGA (TIPO)' => gettype($stateParam),
+        //     'COMO CHEGA (VALOR)' => $stateParam,
+        //     'O QUE O CÓDIGO ESPERAVA' => 'Um objeto (ex: um Model State), para poder fazer $state->id',
+        // ]);
 }
