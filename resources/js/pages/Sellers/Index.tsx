@@ -11,18 +11,21 @@ type Seller = {
     logo_url?: string;
     is_verified?: boolean;
     phone_number: number;
-     external_url: string;
+    external_url: string;
+    city: City;
 };
 
 type State = {
     id: number;
     name: string;
+    abbr: string;
 };
 
 type City = {
     id: number;
     name: string;
     state_id: number;
+    state: State;
 };
 
 type PageProps = {
@@ -173,10 +176,10 @@ export default function SellersIndexPage() {
                         lg:grid-cols-4    
                         gap-6 
                         mx-auto 
-                        max-w-7xl
-                           m-5
+                        m-5
+                         
                     '>
-                        {sellers.slice(0,12).map((seller) => (
+                        {sellers.slice(0,20).map((seller) => (
                             <ListSellers key={seller.id} seller={seller} />
                         ))}
                     </div>

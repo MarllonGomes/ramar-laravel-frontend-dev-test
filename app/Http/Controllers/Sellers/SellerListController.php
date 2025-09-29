@@ -34,7 +34,9 @@ class SellerListController extends Controller
             ->limit(self::PAGINATION_SIZE * $page + 1)
             ->get();
 
-        $hasMorePages = $sellers->count() > self::PAGINATION_SIZE * $page;
+        // $sellers = $sellersQuery->paginate(self::PAGINATION_SIZE);
+
+        // $hasMorePages = $sellers->count() > self::PAGINATION_SIZE * $page;
         if ($hasMorePages) {
             $sellers->pop();
         }
@@ -52,10 +54,4 @@ class SellerListController extends Controller
             'nextPage' => $hasMorePages ? $page + 1 : null,
         ]);
     }
-        // $stateParam = $request->route('state');
-        // dd([
-        //     'COMO CHEGA (TIPO)' => gettype($stateParam),
-        //     'COMO CHEGA (VALOR)' => $stateParam,
-        //     'O QUE O CÓDIGO ESPERAVA' => 'Um objeto (ex: um Model State), para poder fazer $state->id',
-        // ]);
 }
