@@ -34,9 +34,8 @@ class SellerListController extends Controller
             ->limit(self::PAGINATION_SIZE * $page + 1)
             ->get();
 
-        // $sellers = $sellersQuery->paginate(self::PAGINATION_SIZE);
 
-        // $hasMorePages = $sellers->count() > self::PAGINATION_SIZE * $page;
+        $hasMorePages = $sellers->count() > self::PAGINATION_SIZE * $page;
         if ($hasMorePages) {
             $sellers->pop();
         }
